@@ -1,108 +1,64 @@
-# Country Game
+# Country Explorer: The Board Game
 
-A board game to learn about countries while having fun that can be played by one or more players.
+Embark on a journey of discovery with Country Explorer, a captivating and educational board game. This game, perfect for both individual and group play, invites players to explore and learn about various countries in an interactive and enjoyable way.
 
-## The game
+## Game Overview
 
-Country Game is a board and cards game that requires the following items :  
-- 72 country cards
-- one standard 6 faces dice
-- one board with a world map (optional)
-- a token per player to indicate its position on the world map
+Country Explorer is a combination of board and card gameplay, requiring the following components:
+- 72 Country Cards
+- One 6-sided dice
+- A world map board (optional)
+- Player tokens, one for each participant
 
-### Country cards
+### Country Cards: A World in Your Hand
 
-Each card contains facts and images about a country.
+Each card in the set is a gateway to a new country, rich with facts and visuals. The front of the card displays two background images: the top one pinpoints the country's location on the globe, while the bottom one presents a detailed map of the country, highlighting neighboring nations, the capital, and key cities. These maps aid in identifying the landmarks shown on the card's reverse side. Key country details are overlayed on these images:
+- Country Number (1 to 72)
+- Capitals (with the administrative capital underlined)
+- Languages (official languages underlined, multiple languages denoted with an asterisk `*`)
+- Population (displayed in a simplified format, e.g., `36M`, `1.4B`, `57K`)
+- Currency (main currency name and ISO 3166-1 alpha-3 code)
+- Landmarks (four landmark images with transparent layouts and black borders, each frame labeled with the landmark and nearest city)
+- Food and Drinks (three typical items, each with a bold title followed by a description)
 
+### The Board: A Miniature World
 
-On the back of the card are 4 pictures of landmarks and the name of the country.
+The game board features a world map, optionally bordered by the flags of the 72 featured countries, each flag numbered for easy reference.
 
+## Game Setup
 
-On the front of the card are 2 pictures on the background; the one on top shows the location of the country on earth,
-the one below shows a map of the country with the name of neighbour countries, the capital and some other important
-cities that allow to locate the landmarks.  
-Over those 2 images are displayed informations about the country
-- the number of the country (1 to 72)
-- Capitals, the administrative capital is underlined 
-- Languages, official languages are underlined and when a country has many other languages we add an astrisk `*`
-- Population, we diplay 1 to 3 digits and a unit (B: billions, M:millions, K:thousands) for instance `35,588,987` is written `36M`, `1,412,175,000` is written `1.4B` and `56,661` is written `57K`
-- Currency, we display only the main currency name and its 3 characters code ([norm ISO 3166-1 alpha-3](https://www.iso.org/obp/ui/#search))
-- Landmarks, the layout of the 4 pictures of the back of the card is represented transparently with black borders. In each picture frame we display the name of the landmark and of the closet city you can find on the background map.
-- Food and drinks,  3 typical food or drink are dislayed under the landmarks, the name of the dish or drink is displayed in bold font followed by a description.
+Shuffle the Country Cards and place them face-down (landmark side up). If using the board, place the card stack in its designated spot and distribute a token to each player.
 
-### Board
+## Gameplay Rules
 
-The board represents the world map.  
-Optionally on the border are displayed the flags of the 72 countries with a number (from 1 to 72)
+Players take turns in this game, which encompasses six default question categories:
+1. Capital
+2. Population
+3. Languages
+4. Currency
+5. Landmarks
+6. Food and Drinks
 
-## Setup
+### Standard Multiplayer Game with Board
 
-Shuffle the cards and put back face up (the back face is the one showing 4 picture and the country name in the middle).  
-If you play with the board place the card stack one the designated place of the board.  
-Give a token to each player.
+Players begin by placing their token on the country shown on the top card. If the country is too small, place the token adjacent to it. The dice roll determines the question category. For 'Landmarks' and 'Food and Drinks,' additional dice rolls select a specific item to identify.
 
-## Rules
+The next player verifies the answers, reading descriptions aloud when the category is 'Food and Drinks'. Correct answers earn the card, and the player can continue if the next country is land-accessible. Incorrect answers result in the card being placed in a separate 'lost country' stack.
 
-Each player plays one after another.  
+The game concludes when the card stack is depleted. The player with the most cards wins.
 
-There are by default 6 categories of questions:
-1: Capital
-2: Population
-3: Languages
-4: Currency
-5: Landmarks
-6: Food and drinks
+### Difficulty Adjustments
 
-### Standard Multiplayers version with board
+Categories can be customized or replaced with a 'Flag' category, where players identify the flag corresponding to their country. Other modifications, such as selecting landmarks without dice, are also possible.
 
-The player looks at the country name on the top of the first card and position his token on the country.
+### Boardless Play
 
-If the country is too small to contain the token, he places the token next to the country.
+The game can be played without the board, relying on players' knowledge to determine land accessibility between countries.
 
-He then rolls the dice to determine the category of the question he need to answer to earn the card.
+### Solo Play
 
-If the category was landmarks, the player rolls again the dice until he obtain a number 1 to 4 and 
-use this number to determine which of the 4 landmark he has to identify.
+Solo play focuses on beating personal records. The 'Food and Drinks' category is replaced with the 'Flag' category. Players self-verify their answers, moving on to the next card independently.
 
-If the category was food and drinks, the player rolls again the dice until he obtain a number 1 to 3 and 
-use this number to determine which of the 3 food and drinks he has to identify.
+### Credits and DIY
 
-The player after him take the card on the stack and check if the answer to the question is correct.
-
-In case the category was food and drinks, he reads aloud to the player the description of the food or drink and
-ask the player to provide the name of the dish or drink described.
-
-If the player answered correctly he earns the card and put it in front of him.  
-He then checks if the next country on the stack of card can be reached from the country he took by land (that is without having to cross a body of water); if it is the case then he plays again.
-
-If the answer is incorrect then the card is put in the lost country stack (it wont be played again).
-
-The games end when thare are no more card on the stack.
-
-The winner is the one with most cards.
-
-### Ajusting difficulty
-
-If a category is too difficult or not in your liking it can be replaced by the flag category.  
-When the player falls on the flag category he need to point to the flag of his country among all the flags displayed in the 
-border of the board.  
-The other player can then check the answer is correct by verifying the numbers on the flag and on the card match.
-
-You can also decide not to play with some category, let the player choose the landmark he want to identify rather that rolling a dice, etc,...
-
-### Playing without board
-
-The same game can be played without the board, players just have to know if they can go to their current country to
-the one on the next card without crossing a body of water. 
-
-### Playing alone
-
-When played alone the goal of the game is to beat one's own record.  
-The food and drinks category is replaced by the flag category as described in the section `Adjusting the difficulty` above.
-
-The player verify the answer by himself and proceed to the next card.
-
-### Credits and making off
-
-As any Manaty game "Country Game" is free to use, replicate and modify. You will find in the `src` directory the complete instructions and source code to build your own version.
-To help us building new games and new version of our games, please consider donating or buying the commercial versions of the game.
+As with all Manaty games, "Country Explorer" is open for personal use, replication, and modification. Find the complete instructions and source code in the `src` directory. To support our game development and access commercial versions, consider donations or purchases.
