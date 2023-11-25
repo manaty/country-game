@@ -1,5 +1,31 @@
+import io
+import zipfile
 from PIL import Image, ImageDraw, ImageFont
 import os
+
+import requests
+
+def download_and_extract_font(url, destination_folder, font_name):
+    # Check if the font already exists
+    if os.path.exists(os.path.join(destination_folder, font_name)):
+        #print(f"Font '{font_name}' already exists in '{destination_folder}'. No download needed.")
+        return
+
+    # Make the destination folder if it doesn't exist
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
+    try:
+        # Download the font
+        response = requests.get(url)
+        response.raise_for_status()
+        # Unzip the font and save to the destination folder
+        with zipfile.ZipFile(io.BytesIO(response.content)) as thezip:
+            thezip.extractall(destination_folder)
+        print(f"Font '{font_name}' downloaded and extracted to '{destination_folder}'")
+    except requests.RequestException as e:
+        print(f"Error downloading the font: {e}")
+
 
 def combine_images(image_dir, country_name, country_code,country_files, output_dir):
     # List of image paths for the current country
@@ -7,7 +33,8 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
     
     # Load images
     images = [Image.open(path) for path in image_paths]
-    
+    #print(f"Loaded {len(images)}")
+
     # Determine the max width and height of the images (assuming they are the same size)
     max_width = max(i.size[0] for i in images)
     max_height = max(i.size[1] for i in images)
@@ -23,66 +50,50 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
     
     # Add the country name with shadow effect
     draw = ImageDraw.Draw(combined_image)
-    font_size = 10
+    font_size = 100
     text_width = 0
+    download_and_extract_font(font_url,font_folder,font_name)
     try:
-        font = ImageFont.truetype('font/arial.ttf', font_size)
-        while text_width < combined_image.size[0] * 0.6:
+        font_path = os.path.join(font_folder,font_name)
+        font = ImageFont.truetype(font_path, font_size)
+        targetwidth = combined_image.size[0] * 0.6
+        while text_width < targetwidth  and font_size < 1000:
             # Increment font size
-            font_size += 1    
-            ImageFont.truetype('font/arial.ttf', font_size)
-            text_width = draw.textlength(country_name, font=font)
+            font_size += 10    
+            font = ImageFont.truetype(font_path, font_size)
+            (left, top, right, bottom) = draw.textbbox((0, 0), country_name, font=font)
+            text_width = right-left
+            #print(f"Trying font size {font_size}, text width {text_width}")
         # Calculate text position (centered)
         (left, top, right, bottom) = draw.textbbox((0, 0), country_name, font=font)
         text_width = right - left
         text_height = bottom - top
         x_text = (combined_image.size[0] - text_width) // 2
-        y_text = (combined_image.size[1] - text_height) // 2
+        y_text = (combined_image.size[1] - text_height) // 2.5
         
-        # Shadow effect
-        shadow_offset = 2
-        shadow_color = 'grey'
-        draw.text((x_text + shadow_offset, y_text + shadow_offset), country_name, font=font, fill=shadow_color)
-        
+        # neon effect
+        delta=5
+        draw.text((x_text-delta, y_text-delta), country_name, font=font, fill='white')
+        draw.text((x_text-delta, y_text+delta), country_name, font=font, fill='white')
+        draw.text((x_text+delta, y_text-delta), country_name, font=font, fill='white')
+        draw.text((x_text+delta, y_text+delta), country_name, font=font, fill='white')
         # Actual text
         draw.text((x_text, y_text), country_name, font=font, fill='black')
     except OSError:
-        font = ImageFont.load_default()    
-        # Calculate the desired width of the text as 60% of the image width
-        target_text_width = combined_image.size[0] * 0.6
-        
-        # Load the default font
-        font = ImageFont.load_default()
-        
-        (left, top, right, bottom) = draw.textbbox((0, 0), country_name, font=font)
-        temp_width = right - left
-        temp_height = bottom - top
-
-        # Create a new temporary image for drawing the text
-        temp_image = Image.new('RGB', (temp_width, temp_height), 'white')
-        text_draw = ImageDraw.Draw(temp_image)
-
-        # Draw the text
-        text_draw.text((0, 0), country_name, font=font, fill='black')
-        
-        # Resize the temp image to 80% of the combined image width while maintaining aspect ratio
-        scaling_factor = target_text_width / temp_width
-        new_size = (int(temp_width * scaling_factor), int(temp_height * scaling_factor))
-        resized_text_image = temp_image.resize(new_size, Image.LANCZOS)
-        
-        # Calculate position to paste the resized text image onto the combined image
-        x_text = (combined_image.size[0] - new_size[0]) // 2
-        y_text = (combined_image.size[1] - new_size[1]) // 2
-        
-        # Paste the resized text image onto the combined image
-        combined_image.paste(resized_text_image, (x_text, y_text))
+        print("Font not found. Skipping country name.")
+        return
 
     
     # Save the result
-    output_path = os.path.join(output_dir, f"{country_code}_back.png")
+    output_path = os.path.join(output_dir, f"{country_code}_{country_name}_back.png")
     combined_image.save(output_path, 'PNG')
     print(f"Image saved for {country_name}")
 
+
+
+font_url = "https://fonts.google.com/download?family=Lato"
+font_folder = "../files/font"
+font_name = "Lato-Regular.ttf"
 # Directory where the images are stored
 image_dir = '../files/images'
 # Directory where you want to save the output images
@@ -97,11 +108,18 @@ files = os.listdir(image_dir)
 countries = {}
 for file in files:
     parts = file.split('_')
+    if parts[0] != 'cr':
+        continue
+    #print(parts)
     country_code = parts[1]
     country_name = parts[2]
     countries.setdefault(country_name, []).append(file)
+    #print(f"Added {file} to {country_name}")
+    #print(countries)
 
 # Process each country
 for country_name, country_files in countries.items():
+    #print(f"Processing {country_name}")
+    #print(country_files)
     country_code = country_files[0].split('_')[1]
     combine_images(image_dir, country_name, country_code,country_files, output_dir)
