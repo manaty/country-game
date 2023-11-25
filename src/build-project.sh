@@ -13,3 +13,9 @@ python createCountryList.py
 
 echo "Download images of the landmarks..."
 python downloadImages.py
+
+echo "Crop images of the landmarks..."
+python cropImages.py 
+
+echo "assemble images into card's back..."
+python createCardBack.py
