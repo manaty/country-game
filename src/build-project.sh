@@ -10,3 +10,6 @@ source "$PROJECT_NAME-venv/bin/activate"
 # Execute the createCountryList.py script
 echo "Executing createCountryList.py..."
 python createCountryList.py
+
+echo "Download images of the landmarks..."
+python downloadImages.py

@@ -6,9 +6,11 @@ The images have been obtained by crawling wikipedia.
 
 
 
+
+
 ## Setting up the environment
 
-Create a file "keys.json" containing your [openAI secret key](https://gptforwork.com/help/gpt-for-docs/setup/create-openai-api-key)
+Create a file `keys.json` in a `./private` directory. This file will be containing your [openAI secret key](https://gptforwork.com/help/gpt-for-docs/setup/create-openai-api-key)
 
 ```json
 {

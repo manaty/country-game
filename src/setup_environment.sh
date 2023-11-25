@@ -13,6 +13,8 @@ source "$PROJECT_NAME-venv/bin/activate"
 
 # Install required packages
 pip install openai
+pip install wikipedia
+pip install Pillow
 
 # Set environment variables from keys.json
 echo "Setting up environment variables..."
