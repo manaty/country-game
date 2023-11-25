@@ -14,6 +14,7 @@ def extract_coordinates(text):
     # Regular expression pattern to match the coordinates format (x1,y1,x2,y2)
     pattern = r'\((\d+),(\d+),(\d+),(\d+)\)'
 
+    print(f"estract  coordiates from {text}")
     # Search for the pattern in the text
     match = re.search(pattern, text)
 
@@ -31,10 +32,11 @@ def encode_image(image_path):
 
 # Function to get the cropping coordinates from chatGPT API
 def get_cropping_coordinates(image_path,widthToHeightRatio):
-    prompt_user = """"This image represents the landmark of a country. 
-    Provide in coordinate format (x1,y1,x2,y2) the largest part of the picture that both preserve 
-    the important parts of the landmark and has an aspect ratio of {widthToHeightRatio} (width-to-height)."
+    prompt_user = f""""Evaluate in coordinate format (x1,y1,x2,y2) the largest part of the picture that both preserve 
+    the important part of the picture and has an aspect ratio of {widthToHeightRatio} (width-to-height)."
     """
+
+    print(prompt_user)
     base64_image = encode_image(image_path)
     response = client.chat.completions.create(
         model="gpt-4-vision-preview",
@@ -75,15 +77,16 @@ def crop_to_aspect_ratio(img, widthToHeightRatio):
 
 def process_image(image_path, widthToHeightRatio):
     # Get the cropping coordinates from the API
-    crop_coordinates = get_cropping_coordinates(image_path, widthToHeightRatio)
+    # Note that this API call is commented out because at the time it was written it would always fail
+    # crop_coordinates = get_cropping_coordinates(image_path, widthToHeightRatio)
 
     # Crop the image based on the coordinates
     with Image.open(image_path) as img:
-        if crop_coordinates is None:
-            print(f"ChatGPT could not find cropping coordinates for {image_path}")
-            cropped_img = crop_to_aspect_ratio(img, widthToHeightRatio)
-        else:    
-            cropped_img = img.crop(crop_coordinates)
+        #if crop_coordinates is None:
+        #    print(f"ChatGPT could not find cropping coordinates for {image_path}")
+        cropped_img = crop_to_aspect_ratio(img, widthToHeightRatio)
+        #else:    
+        #    cropped_img = img.crop(crop_coordinates)
         # Resize to maintain aspect ratio
         width, height = cropped_img.size
         if width  != targetImageWidth or height != targetImageHeight:
