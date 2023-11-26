@@ -19,3 +19,6 @@ python cropImages.py
 
 echo "assemble images into card's back..."
 python createCardBack.py
+
+echo "Download globe images for card's front..."
+python downloadGlobeImages.py

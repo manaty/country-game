@@ -2,7 +2,9 @@ import csv
 import requests
 import wikipedia
 import os
-import json
+
+csv_file = '../files/country_landmarks.csv'
+imagesPath = "../files/images/"
 
 def download_image(url, country_name, landmark_name):
     headers = {
@@ -10,7 +12,7 @@ def download_image(url, country_name, landmark_name):
     }
 
     # Construct the relative path
-    relative_path = f"../files/images/{country_name+'_'+landmark_name.replace(' ', '_')}.jpg"
+    relative_path = os.path.join(imagesPath,f"{country_name+'_'+landmark_name.replace(' ', '_')}.jpg")
 
     # Ensure directory exists
     os.makedirs(os.path.dirname(relative_path), exist_ok=True)
@@ -57,5 +59,4 @@ def download_landmarks_images(csv_file):
                     
 
 if __name__ == "__main__":
-    csv_file = '../files/country_landmarks.csv'
     download_landmarks_images(csv_file)
