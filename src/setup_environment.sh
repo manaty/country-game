@@ -15,6 +15,7 @@ source "$PROJECT_NAME-venv/bin/activate"
 pip install openai
 pip install wikipedia
 pip install Pillow
+pip install Pandas
 
 # Set environment variables from keys.json
 echo "Setting up environment variables..."
