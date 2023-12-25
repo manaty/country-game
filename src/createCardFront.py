@@ -3,11 +3,13 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 font_size = 30
+small_font_size = 20
 line_height = 40
 font_folder = "../files/font"
 font_name = "Lato-Regular.ttf"
 font_path = os.path.join(font_folder,font_name)
 font = ImageFont.truetype(font_path, font_size)
+small_font = ImageFont.truetype(font_path, small_font_size)
 
 # Directory where the images are stored
 image_folder = '../files/globe'
@@ -107,23 +109,23 @@ def create_front_card(index,country_info):
     text_y = draw_text(draw, f'Name: {country_info[0]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Population: {country_info[1]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Capital: {country_info[2]}', (text_x, text_y), font, card_width)
-    text_y = draw_text(draw, f'Currency: {country_info[4]}', (text_x, text_y), font, card_width)
+    text_y = draw_text(draw, f'Currency: {country_info[3]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Languages: {country_info[4]}', (text_x, text_y), font, card_width)
     text_y += 40
     # Landmark information
     landmarks = landmarks_dict.get(country_name)
-    h1 = draw_text(draw, f'{landmarks[0]}', (10, text_y), font, card_width/2)
-    h2 = draw_text(draw, f'{landmarks[2]}', (20+card_width/2, text_y), font, card_width/2)
+    h1 = draw_text(draw, f'{landmarks[0]}', (10, text_y), font, card_width/2-10)
+    h2 = draw_text(draw, f'{landmarks[2]}', (20+card_width/2, text_y), font, card_width/2-10)
     text_y = max(h1,h2)
     h1 = draw_text(draw, f'{landmarks[1]}', (10, text_y), font, card_width/2)
-    h2 = draw_text(draw, f'{landmarks[3]}', (20+card_width/2, text_y), font, card_width/2)
+    h2 = draw_text(draw, f'{landmarks[3]}', (20+card_width/2, text_y), font, card_width/2-10)
     text_y = max(h1,h2)+40
     
-    text_y = draw_text(draw, f'{country_info[6]}', (text_x, text_y), font, card_width)
+    text_y = draw_text(draw, f'{country_info[6]}', (text_x, text_y), small_font, card_width-20)
     text_y += 20
-    text_y = draw_text(draw, f'{country_info[7]}', (text_x, text_y), font, card_width)
+    text_y = draw_text(draw, f'{country_info[7]}', (text_x, text_y), small_font, card_width-20)
     text_y += 20
-    text_y = draw_text(draw, f'{country_info[8]}', (text_x, text_y), font, card_width)
+    text_y = draw_text(draw, f'{country_info[8]}', (text_x, text_y), small_font, card_width-20)
     
     # Save the card
     card.save(f'{output_dir}/{index}_{country_name}_front.png')
