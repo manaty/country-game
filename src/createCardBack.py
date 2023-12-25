@@ -33,7 +33,7 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
     
     # Load images
     images = [Image.open(path) for path in image_paths]
-    #print(f"Loaded {len(images)}")
+    print(f"Loaded {len(images)}")
 
     # Determine the max width and height of the images (assuming they are the same size)
     max_width = max(i.size[0] for i in images)
@@ -119,7 +119,7 @@ for file in files:
 
 # Process each country
 for country_name, country_files in countries.items():
-    #print(f"Processing {country_name}")
+    print(f"Processing {country_name}")
     #print(country_files)
     country_code = country_files[0].split('_')[1]
     combine_images(image_dir, country_name, country_code,country_files, output_dir)

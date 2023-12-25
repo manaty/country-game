@@ -13,6 +13,10 @@ def download_image(url, country_name, landmark_name):
 
     # Construct the relative path
     relative_path = os.path.join(imagesPath,f"{country_name+'_'+landmark_name.replace(' ', '_')}.jpg")
+    
+    if os.path.exists(relative_path):
+        print(f"file {relative_path} already exists, skip the image download")
+        return
 
     # Ensure directory exists
     os.makedirs(os.path.dirname(relative_path), exist_ok=True)
@@ -38,6 +42,11 @@ def download_landmarks_images(csv_file):
             for landmark in landmarks:
                 index+=1
                 landmark_name = landmark.split(',')[0].strip()
+                # if there is already an image for this landmark, skip it
+                imageFilename = f"{countryIndex}_{country}_{index}_{landmark_name.replace(' ', '_')}.jpg"
+                if os.path.exists(os.path.join(imagesPath,imageFilename)):
+                    print(f"file {imageFilename} already exists, skip the image download")
+                    continue
                 print(f"Searching for {landmark_name} using wikipedia")
                 try:
                     page = wikipedia.page(landmark_name)
@@ -55,6 +64,23 @@ def download_landmarks_images(csv_file):
                     print(f"No Wikipedia page found for {landmark_name}")
                 except wikipedia.exceptions.DisambiguationError as e:
                     print(f"Disambiguation error for {landmark_name}, possible options: {e.options}")
+                    page = wikipedia.page(landmark_name + ' ' + country)
+                    try:
+                        page = wikipedia.page(landmark_name)
+                        if page.images:
+                            # Print all the page.images URLs
+                            for image_url in page.images:
+                                if image_url.lower().endswith('.jpg') and 'location_map' not in image_url:
+                                    print(f"Downloading image for {landmark_name} and url {image_url}")
+                                    download_image(image_url, str(countryIndex)+'_'+country, str(index)+'_'+landmark_name)
+                                    # continue with the next landmark
+                                    break
+                        else:
+                            print(f"No images found for {landmark_name}")
+                    except wikipedia.exceptions.PageError:
+                        print(f"No Wikipedia page found for {landmark_name}")
+                    except wikipedia.exceptions.DisambiguationError as e:
+                        print(f"Disambiguation error for {landmark_name}, possible options: {e.options}")
 
                     
 

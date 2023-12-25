@@ -58,7 +58,8 @@ def get_map_image(country,imageType):
     
     if len(countrylessImages) > 1:
         for img in countrylessImages:
-            if country.lower() in (img['title']).lower():
+            print(f"Looking for {country} in {img['title']}")
+            if country.lower().replace(' ','') in (img['title']).lower().replace(' ',''):
                 print(f"Found {imageType} image for {country}: {img['title']}")
                 image = img
                 break
@@ -68,10 +69,18 @@ def get_map_image(country,imageType):
                     print(f"Found {imageType} image for {country}: {img['title']}")
                     image = img
                     break
+            if image is None:
+                for img in countrylessImages:
+                    if country.lower()[:2] in (img['title']).lower():
+                        print(f"Found {imageType} image for {country}: {img['title']}")
+                        image = img
+                        break
     elif len(countrylessImages) == 1:
         image = countrylessImages[0]
+        if not country.lower()[:2] in (img['title']).lower():
+            return "not found."
     else:
-        return f"{country} {imageType} image not found."
+        return f"not found."
 
     # Get the image URL
     image_info_params = {
@@ -90,7 +99,7 @@ def get_map_image(country,imageType):
         image_url = image_page['imageinfo'][0]['url']
         return image_url
     else:
-        return "Image URL not found."
+        return "not found."
 
 def svg_to_png_url(svg_url, width=550):
     """
@@ -100,6 +109,7 @@ def svg_to_png_url(svg_url, width=550):
     :param width: The width in pixels for the PNG image.
     :return: The URL of the PNG image.
     """
+    print(f"Converting {svg_url} to PNG")
     # Split the URL into parts
     parts = svg_url.split('/')
 
@@ -122,19 +132,34 @@ def download_country_images(csv_file):
         for row in reader:
             countryIndex+=1
             country = row[0]
-            # Look up the orthographic projection of Angola
+
+            image_path = os.path.join(globePath,f"{countryIndex}_{country.replace(' ', '_')}_globe.png")
+            if os.path.exists(image_path):
+                print(f"Image already exists as {image_path}")
+                continue
+    
+            # Look up the orthographic projection 
             orthographic_image_url = get_map_image(country,"orthographic")
             print(orthographic_image_url)
-            png_url = svg_to_png_url(orthographic_image_url)
-            print(png_url)
-            download_country_image(str(countryIndex),country,"globe",png_url,globePath)
-            
-            # Look up the orthographic projection of Angola
-            map_image_url = get_map_image(country,"location")
-            print(map_image_url)
-            png_url = svg_to_png_url(map_image_url)
-            print(png_url)
-            download_country_image(str(countryIndex),country,"map",png_url,globePath)
+            if orthographic_image_url == "not found.":
+                orthographic_image_url = get_map_image(country,"globe")
+            if orthographic_image_url != "not found.":
+                png_url = svg_to_png_url(orthographic_image_url)
+                print(png_url)
+                download_country_image(str(countryIndex),country,"globe",png_url,globePath)
+                
+            # Look up the location
+            #map_image_url = get_map_image(country,"location")
+            #print(map_image_url)
+            #if map_image_url == "not found.":
+            #    map_image_url = get_map_image(country,"map")
+            #    if map_image_url == "not found.":
+            #        map_image_url = get_map_image(country,"orthographic")
+            #        if map_image_url == "not found.":
+            #            continue
+            #png_url = svg_to_png_url(map_image_url)
+            #print(png_url)
+            #sdownload_country_image(str(countryIndex),country,"map",png_url,globePath)
             
 
 if __name__ == "__main__":

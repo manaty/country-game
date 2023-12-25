@@ -63,6 +63,11 @@ def write_landmarks_to_csv(countries, landmarks_data, output_file):
 input_csv_file = '../files/country_names.csv'
 output_csv_file = '../files/country_landmarks.csv'
 
+# If output file already exists, exit
+if os.path.exists(output_csv_file):
+    print(f"file {output_csv_file} already exists, skip the landmarks fetching")
+    exit()
+
 # Reading countries from the input CSV file
 countries = get_countries_from_csv(input_csv_file)
 

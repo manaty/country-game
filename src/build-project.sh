@@ -7,6 +7,10 @@ PROJECT_NAME="country-game"
 echo "Activating the virtual environment..."
 source "$PROJECT_NAME-venv/bin/activate"
 
+# set private keys as environment variables
+echo "Setting private keys as environment variables..."
+python ../private/setEnv.py
+
 # Execute the createCountryList.py script
 echo "Executing createCountryList.py..."
 python createCountryList.py
@@ -22,3 +26,6 @@ python createCardBack.py
 
 echo "Download globe images for card's front..."
 python downloadGlobeImages.py
+
+echo "Assemble card's front..."
+python createCardFront.py

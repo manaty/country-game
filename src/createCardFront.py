@@ -12,14 +12,12 @@ font = ImageFont.truetype(font_path, font_size)
 small_font = ImageFont.truetype(font_path, small_font_size)
 
 # Directory where the images are stored
-image_folder = '../files/globe'
+image_globe_folder = '../files/globe'
+image_map_folder = '../files/map'
 # Directory where you want to save the output images
 output_dir = '../files/cards'
 # Ensure directory exists
 os.makedirs(os.path.dirname(output_dir), exist_ok=True)
-
-# Get a list of all files in the directory
-files = os.listdir(image_folder)
 
 # Read CSV file
 csv_file = '../files/country_names.csv'  
@@ -33,9 +31,13 @@ landmarks_dict = dict(zip(landmark_data[0], landmark_data.iloc[:, 1:].values.tol
 
 # Function to paste an image with transparency onto a background
 def paste_with_transparency(background, image, position):
+    if image.mode != 'RGBA':
+        image = image.convert('RGBA')
+    
     alpha = image.split()[3]
     alpha = alpha.point(lambda p: p * 0.5)
     image.putalpha(alpha)
+
     # Paste the image onto this temporary image
     background.paste(image, position, image)
     return background
@@ -70,9 +72,11 @@ def draw_text(draw, text, position, font, max_width):
 # Function to create a card for each country
 def create_front_card(index,country_info):
     country_name = country_info[0]
+    landmarks = landmarks_dict.get(country_name)
+    country_name = country_name.replace(' ','_')
 
-    globe_image_path = f'{image_folder}/{index}_{country_name}_globe.png'
-    map_image_path = f'{image_folder}/{index}_{country_name}_map.png'
+    globe_image_path = f'{image_globe_folder}/{index}_{country_name}_globe.png'
+    map_image_path = f'{image_map_folder}/{index}_{country_name}_map.gif'
 
     # Create a new image (card) with white background
     card_width = 576
@@ -109,23 +113,27 @@ def create_front_card(index,country_info):
     text_y = draw_text(draw, f'Name: {country_info[0]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Population: {country_info[1]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Capital: {country_info[2]}', (text_x, text_y), font, card_width)
-    text_y = draw_text(draw, f'Currency: {country_info[3]}', (text_x, text_y), font, card_width)
-    text_y = draw_text(draw, f'Languages: {country_info[4]}', (text_x, text_y), font, card_width)
+    text_y += 40
+    text_y = draw_text(draw, f'Languages: {country_info[3]}', (text_x, text_y), font, card_width)
+    text_y = draw_text(draw, f'Currency: {country_info[4]}', (text_x, text_y), font, card_width)
     text_y += 40
     # Landmark information
-    landmarks = landmarks_dict.get(country_name)
     h1 = draw_text(draw, f'{landmarks[0]}', (10, text_y), font, card_width/2-10)
     h2 = draw_text(draw, f'{landmarks[2]}', (20+card_width/2, text_y), font, card_width/2-10)
+    draw.rectangle([5,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
+    draw.rectangle([card_width/2,text_y,card_width-5,max(h1,h2)], outline="black", width=2)
     text_y = max(h1,h2)
     h1 = draw_text(draw, f'{landmarks[1]}', (10, text_y), font, card_width/2)
     h2 = draw_text(draw, f'{landmarks[3]}', (20+card_width/2, text_y), font, card_width/2-10)
+    draw.rectangle([5,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
+    draw.rectangle([card_width/2,text_y,card_width-5,max(h1,h2)], outline="black", width=2)
     text_y = max(h1,h2)+40
     
-    text_y = draw_text(draw, f'{country_info[6]}', (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[6].replace("|",":"), (text_x, text_y), small_font, card_width-20)
     text_y += 20
-    text_y = draw_text(draw, f'{country_info[7]}', (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[7].replace("|",":"), (text_x, text_y), small_font, card_width-20)
     text_y += 20
-    text_y = draw_text(draw, f'{country_info[8]}', (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[8].replace("|",":"), (text_x, text_y), small_font, card_width-20)
     
     # Save the card
     card.save(f'{output_dir}/{index}_{country_name}_front.png')
