@@ -49,7 +49,7 @@ def download_landmarks_images(csv_file):
                     continue
                 print(f"Searching for {landmark_name} using wikipedia")
                 try:
-                    page = wikipedia.page(landmark_name)
+                    page = wikipedia.page(f"{landmark_name}, {country}")
                     if page.images:
                         # Print all the page.images URLs
                         for image_url in page.images:

@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 font_size = 30
-small_font_size = 20
+small_font_size = 30
 line_height = 40
 font_folder = "../files/font"
 font_name = "Lato-Regular.ttf"
@@ -79,25 +79,25 @@ def create_front_card(index,country_info):
     map_image_path = f'{image_map_folder}/{index}_{country_name}_map.gif'
 
     # Create a new image (card) with white background
-    card_width = 576
-    card_height = 1024  # portrait mode (9:16 aspect ratio)
+    card_width = 820
+    card_height = 1120 
     card = Image.new('RGB', (card_width, card_height), 'white')
 
     # Load images
     # this should not fail if an image is missing
     try:
         globe_image = Image.open(globe_image_path)
-        globe_image = resize_image(globe_image, int(card_height * 0.3))
+        globe_image = resize_image(globe_image, int((card_height-60) * 0.3))
         globe_x = (card_width - globe_image.width) // 2
-        card = paste_with_transparency(card,globe_image, (globe_x, 0))
+        card = paste_with_transparency(card,globe_image, (globe_x, 20))
     except FileNotFoundError:
         print(f"Could not find {globe_image_path}")
         pass
     try:
         map_image = Image.open(map_image_path)
-        map_image = resize_image(map_image, int(card_height * 0.7))
+        map_image = resize_image(map_image, int((card_height-60) * 0.7))
         map_x = (card_width - map_image.width) // 2
-        card = paste_with_transparency(card, map_image, (map_x, int(card_height * 0.3)))
+        card = paste_with_transparency(card, map_image, (map_x, 40+int((card_height-40) * 0.3)))
     except FileNotFoundError:
         print(f"Could not find {map_image_path}")
         pass
@@ -105,7 +105,7 @@ def create_front_card(index,country_info):
 
     # Add text over the images
     draw = ImageDraw.Draw(card)
-    text_x, text_y = 20, 20  # Starting position for the text
+    text_x, text_y = 60, 40  # Starting position for the text
     
     # Country information with labels
     info_labels = ["Name: ","Population: ", "Capital: ", "Languages: ", "Currency: ", 
@@ -113,27 +113,27 @@ def create_front_card(index,country_info):
     text_y = draw_text(draw, f'Name: {country_info[0]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Population: {country_info[1]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Capital: {country_info[2]}', (text_x, text_y), font, card_width)
-    text_y += 40
+    text_y += 60
     text_y = draw_text(draw, f'Languages: {country_info[3]}', (text_x, text_y), font, card_width)
     text_y = draw_text(draw, f'Currency: {country_info[4]}', (text_x, text_y), font, card_width)
     text_y += 40
     # Landmark information
-    h1 = draw_text(draw, f'{landmarks[0]}', (10, text_y), font, card_width/2-10)
-    h2 = draw_text(draw, f'{landmarks[2]}', (20+card_width/2, text_y), font, card_width/2-10)
-    draw.rectangle([5,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
-    draw.rectangle([card_width/2,text_y,card_width-5,max(h1,h2)], outline="black", width=2)
+    h1 = draw_text(draw, f'{landmarks[0]}', (60, text_y), font, card_width/2-60)
+    h2 = draw_text(draw, f'{landmarks[2]}', (40+card_width/2, text_y), font, card_width/2-80)
+    draw.rectangle([40,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
+    draw.rectangle([card_width/2,text_y,card_width-40,max(h1,h2)], outline="black", width=2)
     text_y = max(h1,h2)
-    h1 = draw_text(draw, f'{landmarks[1]}', (10, text_y), font, card_width/2)
-    h2 = draw_text(draw, f'{landmarks[3]}', (20+card_width/2, text_y), font, card_width/2-10)
-    draw.rectangle([5,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
-    draw.rectangle([card_width/2,text_y,card_width-5,max(h1,h2)], outline="black", width=2)
+    h1 = draw_text(draw, f'{landmarks[1]}', (60, text_y), font, card_width/2-60)
+    h2 = draw_text(draw, f'{landmarks[3]}', (40+card_width/2, text_y), font, card_width/2-80)
+    draw.rectangle([40,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
+    draw.rectangle([card_width/2,text_y,card_width-40,max(h1,h2)], outline="black", width=2)
     text_y = max(h1,h2)+40
     
-    text_y = draw_text(draw, country_info[6].replace("|",":"), (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[6].replace("|",":"), (text_x, text_y), small_font, card_width-120)
     text_y += 20
-    text_y = draw_text(draw, country_info[7].replace("|",":"), (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[7].replace("|",":"), (text_x, text_y), small_font, card_width-120)
     text_y += 20
-    text_y = draw_text(draw, country_info[8].replace("|",":"), (text_x, text_y), small_font, card_width-20)
+    text_y = draw_text(draw, country_info[8].replace("|",":"), (text_x, text_y), small_font, card_width-120)
     
     # Save the card
     card.save(f'{output_dir}/{index}_{country_name}_front.png')

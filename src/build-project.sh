@@ -27,5 +27,8 @@ python createCardBack.py
 echo "Download globe images for card's front..."
 python downloadGlobeImages.py
 
+echo "Copy map images for card's front..."
+python copyMapImages.py
+
 echo "Assemble card's front..."
 python createCardFront.py

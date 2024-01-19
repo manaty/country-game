@@ -103,7 +103,7 @@ os.makedirs(os.path.dirname(output_dir), exist_ok=True)
 
 # Get a list of all files in the directory
 files = os.listdir(image_dir)
-
+#print(f"Found {len(files)} files")
 # Group files by country code and country name
 countries = {}
 for file in files:
@@ -114,7 +114,7 @@ for file in files:
     country_code = parts[1]
     country_name = parts[2]
     countries.setdefault(country_name, []).append(file)
-    #print(f"Added {file} to {country_name}")
+    print(f"Added {file} to {country_name}")
     #print(countries)
 
 # Process each country
