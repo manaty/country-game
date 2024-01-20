@@ -51,6 +51,8 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
     combined_image.paste(images[1], (max_width, 0))
     combined_image.paste(images[2], (0, max_height))
     combined_image.paste(images[3], (max_width, max_height))
+
+    combined_image=combined_image.resize((1120,820), Image.LANCZOS)
     
     # Add the country name with shadow effect
     draw = ImageDraw.Draw(combined_image)
@@ -61,7 +63,7 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
         font_path = os.path.join(font_folder,font_name)
         font = ImageFont.truetype(font_path, font_size)
         targetwidth = combined_image.size[0] * 0.6
-        while text_width < targetwidth  and font_size < 1000:
+        while text_width < targetwidth  and font_size < 800:
             # Increment font size
             font_size += 10    
             font = ImageFont.truetype(font_path, font_size)
@@ -87,10 +89,10 @@ def combine_images(image_dir, country_name, country_code,country_files, output_d
         print("Font not found. Skipping country name.")
         return
 
-    
+    rotated_image = combined_image.transpose(Image.ROTATE_270)
     # Save the result
     output_path = os.path.join(output_dir, f"{country_code}_{country_name}_back.png")
-    combined_image.save(output_path, 'PNG')
+    rotated_image.save(output_path, 'PNG')
     print(f"Image saved for {country_name}")
 
 
