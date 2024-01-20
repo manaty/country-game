@@ -62,3 +62,5 @@ Solo play focuses on beating personal records. The 'Food and Drinks' category is
 ### Credits and DIY
 
 As with all Manaty games, "Country Explorer" is open for personal use, replication, and modification. Find the complete instructions and source code in the `src` directory. To support our game development and access commercial versions, consider donations or purchases.
+
+Join our [Discord](https://discord.gg/4CspeFaa) to discuss, order and share your thoughts.
