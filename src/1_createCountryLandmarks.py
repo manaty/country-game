@@ -16,22 +16,21 @@ def fetch_country_data(countries):
     countries_list = "\n".join(countries)
 
     # Crafting the prompt to ask for landmarks of the countries in input
-    prompt_user = f"""Please provide JSON formated information for the following countries: {countries_list},
-    """
-
-    completion = client.chat.completions.create(model="gpt-4",
+    prompt_user = f"Please provide JSON formated information for the following countries: {countries_list}"
+    print(prompt_user)
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": prompt_system},
         {"role": "user", "content": prompt_user},
     ],
-    max_tokens=5000,  # Increased to accommodate longer response
+    max_tokens=2000,  # Increased to accommodate longer response
     n=1,
     stop=None,
     temperature=0)
 
     # Extracting the response content
     response_text = completion.choices[0].message.content
-
+    print(response_text)
     # Parsing the JSON response
     try:
         landmarks_data = json.loads(response_text)
@@ -50,7 +49,7 @@ def get_countries_from_csv(file_path):
     return countries
 
 def write_landmarks_to_csv(countries, landmarks_data, output_file):
-    with open(output_file, 'w', newline='') as csvfile:
+    with open(output_file, 'a', newline='') as csvfile:  # Use 'a' mode to append instead of 'w' mode to overwrite
         writer = csv.writer(csvfile)
         for country in countries:
             row = [country]
@@ -59,20 +58,37 @@ def write_landmarks_to_csv(countries, landmarks_data, output_file):
                 row.append(landmark.get("name", "") + ", " + landmark.get("location", ""))
             writer.writerow(row)
 
-# Path to your input and output CSV files
-input_csv_file = '../files/country_names.csv'
-output_csv_file = '../files/country_landmarks.csv'
+# Function to get countries already processed in the output CSV file
+def get_processed_countries(output_file):
+    processed_countries = set()
+    with open(output_file, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            if row:  # Checking if the row is not empty
+                processed_country = row[0]  # Assuming country name is in the first column
+                processed_countries.add(processed_country)
+    return processed_countries
 
-# If output file already exists, exit
-if os.path.exists(output_csv_file):
-    print(f"file {output_csv_file} already exists, skip the landmarks fetching")
-    exit()
+# Path to your input and output CSV files
+input_csv_file = '../files/country game - no landmarks.csv'
+output_csv_file = '../files/country_landmarks.csv'
 
 # Reading countries from the input CSV file
 countries = get_countries_from_csv(input_csv_file)
+print(f"# countries in input file: {len(countries)}")
 
-# Fetching landmarks data
-landmarks_data = fetch_country_data(countries)
+# Reading countries already processed
+processed_countries = get_processed_countries(output_csv_file)
+print(f"# countries already processed: {len(processed_countries)}")
 
-# Writing landmarks to the output CSV file
-write_landmarks_to_csv(countries, landmarks_data, output_csv_file)
+# Removing already processed countries from the list
+countries = [country for country in countries if country not in processed_countries]
+print(f"# fetching landmarks for {countries} ")
+
+if(len(countries)>0):
+    # Fetching landmarks data and writing landmarks to the output CSV file in batches of 10 countries
+    batch_size = 10
+    for i in range(0, len(countries), batch_size):
+        batch_countries = countries[i:i+batch_size]
+        landmarks_data = fetch_country_data(batch_countries)
+        write_landmarks_to_csv(batch_countries, landmarks_data, output_csv_file)

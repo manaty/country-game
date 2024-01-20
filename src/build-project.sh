@@ -12,14 +12,20 @@ echo "Setting private keys as environment variables..."
 python ../private/setEnv.py
 
 # Execute the createCountryList.py script
-echo "Executing createCountryList.py..."
-python createCountryList.py
+echo "Getting landmarks of countries"
+python 1_createCountryLandmarks.py
 
 echo "Download images of the landmarks..."
-python downloadImages.py
+python 2_downloadImages.py
+
+echo "Generate images of missing landmarks..."
+python 3_generateLandmarkImages.py
+
+echo "Resize landmarks images that are too large..."
+python 4_resizeImages.py
 
 echo "Crop images of the landmarks..."
-python cropImages.py 
+python 5_cropImages.py 
 
 echo "assemble images into card's back..."
 python createCardBack.py

@@ -37,7 +37,7 @@ def fetch_landmark_image(country_name,landmark_name):
     try:
         response = client.images.generate(
             model="dall-e-3",
-            prompt=f"a picture without any text of this landmark of {country_name}  : {landmark_name}",
+            prompt=f"A photo without any text of the landmark '{landmark_name}' of the country '{country_name}'",
             size="1792x1024",
             quality="standard",
             n=1,
@@ -45,8 +45,7 @@ def fetch_landmark_image(country_name,landmark_name):
         return response.data[0].url
 
     except openai.OpenAIError as e:
-        print(e.http_status)
-        print(e.error)
+        print(e)
     
     return None
 

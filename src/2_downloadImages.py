@@ -1,7 +1,11 @@
 import csv
+import re
 import requests
 import wikipedia
 import os
+from openai import OpenAI
+
+client = OpenAI(api_key=os.environ.get('OPENAI_SECRET_KEY'))
 
 csv_file = '../files/country_landmarks.csv'
 imagesPath = "../files/images/"
@@ -28,6 +32,26 @@ def download_image(url, country_name, landmark_name):
             print(f"Size of content: {len(response.content)} bytes")
             file.write(response.content)
 
+def askChatGPT(country,landmark):
+    # Crafting the prompt to ask for landmarks of the countries in input
+    prompt_user = f"Please provide the url of an image of the famous landmark `{landmark}` of the country `{country}`."
+    print(prompt_user)
+
+    completion = client.chat.completions.create(model="gpt-4",
+    messages=[
+        {"role": "user", "content": prompt_user},
+    ],
+    max_tokens=2000,  # Increased to accommodate longer response
+    n=1,
+    stop=None,
+    temperature=0)
+
+    # Extracting the response content
+    response_text = completion.choices[0].message.content
+    print(response_text)
+
+    return response_text
+
 
 def download_landmarks_images(csv_file):
     with open(csv_file, newline='', encoding='utf-8') as file:
@@ -51,13 +75,15 @@ def download_landmarks_images(csv_file):
                 try:
                     page = wikipedia.page(f"{landmark_name}, {country}")
                     if page.images:
+                        print(f"Found {len(page.images)} images in wikipedia for {landmark_name}")
                         # Print all the page.images URLs
                         for image_url in page.images:
+                            print(f"image url: {image_url}")
                             if image_url.lower().endswith('.jpg') and 'location_map' not in image_url:
                                 print(f"Downloading image for {landmark_name} and url {image_url}")
                                 download_image(image_url, str(countryIndex)+'_'+country, str(index)+'_'+landmark_name)
                                 # continue with the next landmark
-                                break
+                                continue
                     else:
                         print(f"No images found for {landmark_name}")
                 except wikipedia.exceptions.PageError:
@@ -74,14 +100,13 @@ def download_landmarks_images(csv_file):
                                     print(f"Downloading image for {landmark_name} and url {image_url}")
                                     download_image(image_url, str(countryIndex)+'_'+country, str(index)+'_'+landmark_name)
                                     # continue with the next landmark
-                                    break
+                                    continue
                         else:
                             print(f"No images found for {landmark_name}")
                     except wikipedia.exceptions.PageError:
                         print(f"No Wikipedia page found for {landmark_name}")
                     except wikipedia.exceptions.DisambiguationError as e:
                         print(f"Disambiguation error for {landmark_name}, possible options: {e.options}")
-
                     
 
 if __name__ == "__main__":
