@@ -17,6 +17,7 @@ pip install wikipedia
 pip install Pillow
 pip install Pandas
 pip install pycountry
+pip install cairosvg
 
 # Set environment variables from keys.json
 echo "Setting up environment variables..."

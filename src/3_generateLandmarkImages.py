@@ -49,7 +49,6 @@ def fetch_landmark_image(country_name,landmark_name):
     
     return None
 
-
 def generate_landmarks_images(csv_file):
     with open(csv_file, newline='', encoding='utf-8') as file:
         reader = csv.reader(file)

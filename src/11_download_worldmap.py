@@ -1,0 +1,1 @@
+#Image by https://simplemaps.com/resources/svg-world

@@ -38,3 +38,9 @@ python 8_copyMapImages.py
 
 echo "Assemble card's front..."
 python 9_createCardFront.py
+
+echo "Download flags..."
+python 10_downloadFlags.py
+
+echo "Create Board..."
+python 11_createBoard.py

@@ -23,7 +23,7 @@ def get_iso_code(country_name):
         return "tz"
     if country_name == "Turkey":
         return "tr"
-    if country_name == "United Arab Emirat":
+    if country_name == "United Arab Emirates":
         return "ae"
     if country_name == "Venezuela":
         return "ve"
