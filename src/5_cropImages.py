@@ -57,7 +57,7 @@ def get_cropping_coordinates(image_path,widthToHeightRatio):
 def crop_to_aspect_ratio(img, widthToHeightRatio):
     # Open the image
     original_width, original_height = img.size
-
+    print(f"image size {img.size}")
     # Calculate the target dimensions based on the aspect ratio
     target_width = original_width
     target_height = int(target_width / widthToHeightRatio)
@@ -73,21 +73,22 @@ def crop_to_aspect_ratio(img, widthToHeightRatio):
     right = left + target_width
     bottom = top + target_height
 
+    print(f"crop to {(left, top, right, bottom)}")
     return img.crop((left, top, right, bottom))
 
 def process_image(image_path, widthToHeightRatio):
     # Get the cropping coordinates from the API
     # Note that this API call is commented out because at the time it was written it would always fail
     # crop_coordinates = get_cropping_coordinates(image_path, widthToHeightRatio)
-
+    
 
     # if the same file with prefix "cr_" already exists, skip the image processing
     directory, filename = os.path.split(image_path)
     cropped_filename = "cr_" + filename
     cropped_imagepath = os.path.join(directory, cropped_filename)
     if os.path.exists(cropped_imagepath):
-        print(f"file {cropped_imagepath} already exists, skip the image processing")
         return
+    print(image_path)
 
     # Crop the image based on the coordinates
     with Image.open(image_path) as img:
@@ -100,7 +101,7 @@ def process_image(image_path, widthToHeightRatio):
         width, height = cropped_img.size
         if width  != targetImageWidth or height != targetImageHeight:
             cropped_img = cropped_img.resize((targetImageWidth, targetImageHeight), Image.LANCZOS)
-            cropped_img.save(cropped_imagepath)
+        cropped_img.save(cropped_imagepath)
 
 
 def process_images(directory):

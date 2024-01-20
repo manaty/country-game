@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-maxSize = 1000000
+maxSize = 2000000
 imagesPath = "../files/images/"
 
 def resize_image(image_path,ratio):

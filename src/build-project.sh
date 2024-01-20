@@ -28,13 +28,13 @@ echo "Crop images of the landmarks..."
 python 5_cropImages.py 
 
 echo "assemble images into card's back..."
-python createCardBack.py
+python 6_createCardBack.py
 
 echo "Download globe images for card's front..."
-python downloadGlobeImages.py
+python 7_downloadGlobeImages.py
 
 echo "Copy map images for card's front..."
-python copyMapImages.py
+python 8_copyMapImages.py
 
 echo "Assemble card's front..."
-python createCardFront.py
+python 9_createCardFront.py

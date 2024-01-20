@@ -3,7 +3,7 @@ import csv
 import requests
 
 
-csv_file = '../files/country_names.csv'
+csv_file = '../files/country game - no landmarks.csv'
 globePath = "../files/globe/"
 
 def download_country_image(country_code, country_name,filename_suffix,orthographic_image_url,image_folder):

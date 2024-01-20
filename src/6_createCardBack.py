@@ -28,8 +28,12 @@ def download_and_extract_font(url, destination_folder, font_name):
 
 
 def combine_images(image_dir, country_name, country_code,country_files, output_dir):
+    # order country_files alphabetically
+    
+    country_files_sorted = sorted(country_files)
+
     # List of image paths for the current country
-    image_paths = [os.path.join(image_dir, f"{country_file}") for country_file in country_files]
+    image_paths = [os.path.join(image_dir, f"{country_file}") for country_file in country_files_sorted]
     
     # Load images
     images = [Image.open(path) for path in image_paths]

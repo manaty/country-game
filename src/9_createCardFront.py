@@ -20,7 +20,7 @@ output_dir = '../files/cards'
 os.makedirs(os.path.dirname(output_dir), exist_ok=True)
 
 # Read CSV file
-csv_file = '../files/country_names.csv'  
+csv_file = '../files/country game - no landmarks.csv'  
 data = pd.read_csv(csv_file, header=None)
 countries = data.values
 
@@ -119,11 +119,11 @@ def create_front_card(index,country_info):
     text_y += 40
     # Landmark information
     h1 = draw_text(draw, f'{landmarks[0]}', (60, text_y), font, card_width/2-60)
-    h2 = draw_text(draw, f'{landmarks[2]}', (40+card_width/2, text_y), font, card_width/2-80)
+    h2 = draw_text(draw, f'{landmarks[1]}', (40+card_width/2, text_y), font, card_width/2-80)
     draw.rectangle([40,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
     draw.rectangle([card_width/2,text_y,card_width-40,max(h1,h2)], outline="black", width=2)
     text_y = max(h1,h2)
-    h1 = draw_text(draw, f'{landmarks[1]}', (60, text_y), font, card_width/2-60)
+    h1 = draw_text(draw, f'{landmarks[2]}', (60, text_y), font, card_width/2-60)
     h2 = draw_text(draw, f'{landmarks[3]}', (40+card_width/2, text_y), font, card_width/2-80)
     draw.rectangle([40,text_y,card_width/2,max(h1,h2)], outline="black", width=2)
     draw.rectangle([card_width/2,text_y,card_width-40,max(h1,h2)], outline="black", width=2)
