@@ -1,4 +1,16 @@
-
 private/
 src/country-game-venv/
 files/images/
+
+.DS_Store
+node_modules
+country-app/build
+country-app/.svelte-kit
+country-app/package
+.env
+.env.*
+!.env.example
+.vercel
+.output
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
