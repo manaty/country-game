@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 'node'  # Automatically use the latest stable Node.js version
+        node-version: '16'
 
     - name: move to country app
       run: cd country-app
