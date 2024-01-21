@@ -19,16 +19,13 @@ jobs:
         node-version: '16'
 
     - name: move to country app
-      run: cd country-app
-
-    - name: Install Dependencies
-      run: npm install
+      run: cd country-app && npm install
 
     - name: Build
-      run: npm run build
+      run: cd country-app && npm run build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build  # Set this to your build output directory
+        publish_dir: ./country-app/build  # Set this to your build output directory
