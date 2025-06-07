@@ -1,0 +1,8 @@
+{
+  "commit_frequency_min": 1440,
+  "binary_storage_type": "gitfs",
+  "storage_info": {
+    "type": "gitfs",
+    "url": ""
+  }
+}
