@@ -2,7 +2,7 @@
   "id": "761bcde4-8a7e-4523-9381-22fb9af30bd8",
   "repo": "manaty/country-game",
   "title": "new_features",
-  "createdAt": "2025-09-21T03:38:19.879Z",
+  "createdAt": "2025-09-21T03:38:49.908Z",
   "participants": [],
   "messages": [
     {
@@ -26,6 +26,15 @@
       "content": "test",
       "timestamp": 1758425893281,
       "hash": "91c2cbe0489fc541",
+      "in_response_to": null,
+      "attachment": null
+    },
+    {
+      "id": "b0a868c5-d9ec-4eb6-9b8c-fa79879dd6d0",
+      "sender": "smichea",
+      "content": "test 2",
+      "timestamp": 1758425918461,
+      "hash": "703567916ffe60a4",
       "in_response_to": null,
       "attachment": null
     }
