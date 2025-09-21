@@ -2,7 +2,7 @@
   "id": "761bcde4-8a7e-4523-9381-22fb9af30bd8",
   "repo": "manaty/country-game",
   "title": "new_features",
-  "createdAt": "2025-06-07T03:43:04.805Z",
+  "createdAt": "2025-09-21T03:38:19.879Z",
   "participants": [],
   "messages": [
     {
@@ -10,6 +10,24 @@
       "sender": "smichea",
       "content": "I agree with that",
       "timestamp": 1749267769246
+    },
+    {
+      "id": "7f16092e-29c5-4743-b76b-0841df041731",
+      "sender": "smichea",
+      "content": "good then lets do it",
+      "timestamp": 1758425365037,
+      "hash": "2140aacdd339f7ca",
+      "in_response_to": null,
+      "attachment": null
+    },
+    {
+      "id": "0c0e10be-9796-4f1a-a87c-d05a072565ca",
+      "sender": "smichea",
+      "content": "test",
+      "timestamp": 1758425893281,
+      "hash": "91c2cbe0489fc541",
+      "in_response_to": null,
+      "attachment": null
     }
   ]
 }
